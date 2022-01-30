@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 function Navbar() {
   const router = useRouter();
+  // console.log("router", router);
   const isActive = (route) => router.pathname === route;
   // console.log(router.pathname);
   return (
@@ -14,7 +15,7 @@ function Navbar() {
             <Menu.Item header active={isActive("/login")}>
               <Icon
                 size="large"
-                color={isActive("/login") ? " teal" : "red"}
+                color={isActive("/login") ? "teal" : "red"}
                 name="sign in"
               />
               Login
@@ -24,7 +25,7 @@ function Navbar() {
             <Menu.Item header active={isActive("/signup")}>
               <Icon
                 size="large"
-                color={isActive("/signup") ? " teal" : "red"}
+                color={isActive("/signup") ? "teal" : "red"}
                 name="signup"
               />
               Sign Up
