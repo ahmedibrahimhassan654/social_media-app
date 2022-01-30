@@ -1,7 +1,16 @@
-import React from 'react';
-
+import React from "react";
+import {
+  FooterMessage,
+  HeaderMessage,
+} from "../components/common/WelcomeMessage";
 const signup = () => {
-  return <div>sign up</div>;
+  return (
+    <>
+      <HeaderMessage />
+
+      <FooterMessage />
+    </>
+  );
 };
 
 export default signup;
