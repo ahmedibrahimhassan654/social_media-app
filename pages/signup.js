@@ -4,6 +4,7 @@ import {
   HeaderMessage,
 } from "../components/common/WelcomeMessage";
 import { Form, Button, Message, Segment, Divider } from "semantic-ui-react";
+import CommonInputs from "../components/common/SocialMediaInputs";
 const signup = () => {
   const [user, setUser] = useState({
     name: "",
@@ -18,7 +19,6 @@ const signup = () => {
 
   const { name, email, password, bio } = user;
   const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
-
   const [showSocialLinks, setShowSocialLinks] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -26,6 +26,14 @@ const signup = () => {
   const [username, setUsername] = useState("");
   const [usernameLoading, setUsernameLoading] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  useEffect(() => {
+    const isUser = Object.values({ name, email, password, bio }).every((item) =>
+      Boolean(item)
+    );
+    isUser ? setSubmitDisabled(false) : setSubmitDisabled(true);
+  }, [user]);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -101,8 +109,8 @@ const signup = () => {
               setUsername(e.target.value);
 
               if (regexUserName.test(e.target.value)) {
-                setUsernameAvailable(true);
                 setUsernameLoading(false);
+                setUsernameAvailable(true);
               } else {
                 setUsernameAvailable(false);
               }
@@ -110,6 +118,22 @@ const signup = () => {
             fluid
             icon={usernameAvailable ? "check" : "close"}
             iconPosition="left"
+          />
+          <CommonInputs
+            user={user}
+            showSocialLinks={showSocialLinks}
+            setShowSocialLinks={setShowSocialLinks}
+            handleChange={handleChange}
+          />
+
+          <Divider />
+          <Button
+            icon="signup"
+            content="Signup"
+            type="submit"
+            color="blue"
+            fluid
+            disabled={submitDisabled || !usernameAvailable}
           />
         </Segment>
       </Form>
