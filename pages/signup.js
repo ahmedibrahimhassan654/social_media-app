@@ -5,6 +5,7 @@ import {
 } from "../components/common/WelcomeMessage";
 import { Form, Button, Message, Segment, Divider } from "semantic-ui-react";
 import CommonInputs from "../components/common/SocialMediaInputs";
+import ImageDropDiv from "../components/common/ImageDropDiv";
 const signup = () => {
   const [user, setUser] = useState({
     name: "",
@@ -28,6 +29,11 @@ const signup = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
+  const [media, setMedia] = useState(null);
+  const [mediaPreview, setMediaPreview] = useState(null);
+  const [highlighted, setHighlighted] = useState(false);
+  const inputRef = useRef();
+
   useEffect(() => {
     const isUser = Object.values({ name, email, password, bio }).every((item) =>
       Boolean(item)
@@ -38,7 +44,12 @@ const signup = () => {
     e.preventDefault();
   };
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
+
+    if (name === "media") {
+      setMedia(files[0]);
+      setMediaPreview(URL.createObjectURL(files[0]));
+    }
     setUser((prev) => ({ ...prev, [name]: value }));
   };
   return (
@@ -57,6 +68,15 @@ const signup = () => {
         />
 
         <Segment>
+          <ImageDropDiv
+            mediaPreview={mediaPreview}
+            setMediaPreview={setMediaPreview}
+            setMedia={setMedia}
+            inputRef={inputRef}
+            highlighted={highlighted}
+            setHighlighted={setHighlighted}
+            handleChange={handleChange}
+          />
           <Form.Input
             required
             label="Name"
